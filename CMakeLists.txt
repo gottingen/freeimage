@@ -63,21 +63,21 @@ set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginJXR.cpp)
 #-------- binary ----------------------------------------------------
 
 set(CMAKE_POSITION_INDEPENDENT_CODE 1)
-add_library(FreeImage SHARED ${cpp_SOURCES})
-target_include_directories(FreeImage INTERFACE freeimage/Source)
-target_include_directories(FreeImage PRIVATE ${cpp_INCLUDES})
-target_compile_definitions(FreeImage PUBLIC -DFREEIMAGE_LIB)
-target_compile_definitions(FreeImage PRIVATE -DNO_LCMS -D__ANSI__ -DDISABLE_PERF_MEASUREMENT)
-target_compile_options(FreeImage PRIVATE -Wno-switch -Wno-bitwise-op-parentheses -Wno-logical-op-parentheses)
+add_library(freeimage SHARED ${cpp_SOURCES})
+target_include_directories(freeimage INTERFACE freeimage/Source)
+target_include_directories(freeimage PRIVATE ${cpp_INCLUDES})
+target_compile_definitions(freeimage PUBLIC -DFREEIMAGE_LIB)
+target_compile_definitions(freeimage PRIVATE -DNO_LCMS -D__ANSI__ -DDISABLE_PERF_MEASUREMENT)
+target_compile_options(freeimage PRIVATE -Wno-switch -Wno-bitwise-op-parentheses -Wno-logical-op-parentheses)
 
 
 if (CMAKE_SYSTEM_NAME MATCHES "Android")
-    target_compile_definitions(FreeImage PRIVATE -DPNG_ARM_NEON_OPT=0)
+    target_compile_definitions(freeimage PRIVATE -DPNG_ARM_NEON_OPT=0)
 endif ()
 
 install(FILES freeimage/Source/FreeImage.h DESTINATION include)
 
-install(TARGETS FreeImage
+install(TARGETS freeimage
         RUNTIME DESTINATION lib
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
