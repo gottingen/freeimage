@@ -68,12 +68,13 @@ endif ()
 ##############################################
 # header installing
 #############################################
+#[[
 install(DIRECTORY ${PROJECT_NAME}
         DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
         FILES_MATCHING
         PATTERN "*.inc"
         PATTERN "*.h"
-        )
+        )]]
 
 # Layout. This works for all platforms:
 #   * <prefix>/lib*/cmake/<PROJECT-NAME>

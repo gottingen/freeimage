@@ -568,3 +568,7 @@ if (BUILD_SHARED_LIBRARY)
             SHARED
     )
 endif ()
+
+install(FILES Source/FreeImage.h
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+)
