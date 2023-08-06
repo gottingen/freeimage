@@ -4,9 +4,9 @@
 include Makefile.srcs
 
 # General configuration variables:
-DESTDIR ?= /
-INCDIR ?= $(DESTDIR)/usr/include
-INSTALLDIR ?= $(DESTDIR)/usr/lib
+DESTDIR ?= /opt/carbin
+INCDIR ?= $(DESTDIR)/include
+INSTALLDIR ?= $(DESTDIR)/lib
 
 # Converts cr/lf to just lf
 DOS2UNIX = dos2unix

@@ -1,84 +1,139 @@
-cmake_minimum_required(VERSION 3.10)
+#
+# Copyright 2023 The titan-search Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+####################################################################################
+# generate by carbin package manager tools for titan-search
+# https://github.com/gottingen/carbin
+####################################################################################
+cmake_minimum_required(VERSION 3.15)
 
-#-------- project ---------------------------------------------------
-project(FreeImage)
+project(freeimage CXX)
 
-set(CMAKE_C_STANDARD 90)
-set(CMAKE_CXX_STANDARD 11)
+set(PROJECT_DESCRIPTION "Hercules is an ahead of time compiler for a subset of the Python language framework.")
+set(PROJECT_VERSION_MAJOR 0)
+set(PROJECT_VERSION_MINOR 1)
+set(PROJECT_VERSION_PATCH 5)
+set(PROJECT_VERSION "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH}")
+set(CARBIN_VERSION 0.2.0)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/carbin_cmake)
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+#################################################################
+#
+# modify the CARBIN_DEPS_PREFIX to you prefix if needed.
+# for example when you install you deps to "/opt/handsome/guy
+# modify as set(CARBIN_DEPS_PREFIX /opt/handsome/guy)
+#################################################################
+set(CARBIN_DEPS_PREFIX ${PROJECT_SOURCE_DIR}/carbin)
+#######################################################################
+# warning
+# in carbin_cmake directory, caution to modify files in that dir
+######################################################################
+include(carbin_module)
 
-#-------- sources ---------------------------------------------------
-set(cpp_INCLUDES freeimage/Source freeimage/Source/Metadata freeimage/Source/FreeImageToolkit freeimage/Source/ZLib)
-set(cpp_SOURCES freeimage/Source/FreeImage/BitmapAccess.cpp freeimage/Source/FreeImage/ColorLookup.cpp freeimage/Source/FreeImage/FreeImage.cpp freeimage/Source/FreeImage/FreeImageC.c freeimage/Source/FreeImage/FreeImageIO.cpp freeimage/Source/FreeImage/GetType.cpp freeimage/Source/FreeImage/MemoryIO.cpp freeimage/Source/FreeImage/PixelAccess.cpp freeimage/Source/FreeImage/J2KHelper.cpp freeimage/Source/FreeImage/MNGHelper.cpp freeimage/Source/FreeImage/Plugin.cpp freeimage/Source/FreeImage/PSDParser.cpp freeimage/Source/FreeImage/TIFFLogLuv.cpp freeimage/Source/FreeImage/Conversion.cpp freeimage/Source/FreeImage/Conversion16_555.cpp freeimage/Source/FreeImage/Conversion16_565.cpp freeimage/Source/FreeImage/Conversion24.cpp freeimage/Source/FreeImage/Conversion32.cpp freeimage/Source/FreeImage/Conversion4.cpp freeimage/Source/FreeImage/Conversion8.cpp freeimage/Source/FreeImage/ConversionFloat.cpp freeimage/Source/FreeImage/ConversionRGB16.cpp freeimage/Source/FreeImage/ConversionRGBA16.cpp freeimage/Source/FreeImage/ConversionRGBAF.cpp freeimage/Source/FreeImage/ConversionRGBF.cpp freeimage/Source/FreeImage/ConversionType.cpp freeimage/Source/FreeImage/ConversionUINT16.cpp freeimage/Source/FreeImage/Halftoning.cpp freeimage/Source/FreeImage/tmoColorConvert.cpp freeimage/Source/FreeImage/tmoDrago03.cpp freeimage/Source/FreeImage/tmoFattal02.cpp freeimage/Source/FreeImage/tmoReinhard05.cpp freeimage/Source/FreeImage/ToneMapping.cpp freeimage/Source/FreeImage/LFPQuantizer.cpp freeimage/Source/FreeImage/NNQuantizer.cpp freeimage/Source/FreeImage/WuQuantizer.cpp freeimage/Source/FreeImage/CacheFile.cpp freeimage/Source/FreeImage/MultiPage.cpp freeimage/Source/FreeImage/ZLibInterface.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} freeimage/Source/DeprecationManager/Deprecated.cpp freeimage/Source/DeprecationManager/DeprecationMgr.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} freeimage/Source/Metadata/Exif.cpp freeimage/Source/Metadata/FIRational.cpp freeimage/Source/Metadata/FreeImageTag.cpp freeimage/Source/Metadata/IPTC.cpp freeimage/Source/Metadata/TagConversion.cpp freeimage/Source/Metadata/TagLib.cpp freeimage/Source/Metadata/XTIFF.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} freeimage/Source/FreeImageToolkit/Background.cpp freeimage/Source/FreeImageToolkit/BSplineRotate.cpp freeimage/Source/FreeImageToolkit/Channels.cpp freeimage/Source/FreeImageToolkit/ClassicRotate.cpp freeimage/Source/FreeImageToolkit/Colors.cpp freeimage/Source/FreeImageToolkit/CopyPaste.cpp freeimage/Source/FreeImageToolkit/Display.cpp freeimage/Source/FreeImageToolkit/Flip.cpp freeimage/Source/FreeImageToolkit/JPEGTransform.cpp freeimage/Source/FreeImageToolkit/MultigridPoissonSolver.cpp freeimage/Source/FreeImageToolkit/Rescale.cpp freeimage/Source/FreeImageToolkit/Resize.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} freeimage/Source/ZLib/adler32.c freeimage/Source/ZLib/compress.c freeimage/Source/ZLib/crc32.c freeimage/Source/ZLib/deflate.c freeimage/Source/ZLib/gzclose.c freeimage/Source/ZLib/gzlib.c freeimage/Source/ZLib/gzread.c freeimage/Source/ZLib/gzwrite.c freeimage/Source/ZLib/infback.c freeimage/Source/ZLib/inffast.c freeimage/Source/ZLib/inflate.c freeimage/Source/ZLib/inftrees.c freeimage/Source/ZLib/trees.c freeimage/Source/ZLib/uncompr.c freeimage/Source/ZLib/zutil.c)
+##################################################################
+#
+# your cmake directory ${PROJECT_SOURCE_DIR}/cmake, do things here
+#################################################################
+include(user_deps)
+include(user_cxx_config)
 
-include("Options.cmake")
-
-if (FI_FREEIMAGE_PNG)
-
-    set(cpp_INCLUDES ${cpp_INCLUDES} freeimage/Source/LibPNG)
-    set(cpp_SOURCES ${cpp_SOURCES} freeimage/Source/FreeImage/PluginPNG.cpp)
-    set(cpp_SOURCES ${cpp_SOURCES} freeimage/Source/LibPNG/png.c freeimage/Source/LibPNG/pngerror.c freeimage/Source/LibPNG/pngget.c freeimage/Source/LibPNG/pngmem.c freeimage/Source/LibPNG/pngpread.c freeimage/Source/LibPNG/pngread.c freeimage/Source/LibPNG/pngrio.c freeimage/Source/LibPNG/pngrtran.c freeimage/Source/LibPNG/pngrutil.c freeimage/Source/LibPNG/pngset.c freeimage/Source/LibPNG/pngtrans.c freeimage/Source/LibPNG/pngwio.c freeimage/Source/LibPNG/pngwrite.c freeimage/Source/LibPNG/pngwtran.c freeimage/Source/LibPNG/pngwutil.c)
-
-else ()
-
-    set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPNG.cpp)
-
+add_subdirectory(freeimage)
+####################################################################
+# belows are auto, edit it be cation
+####################################################################
+if (CARBIN_BUILD_TEST)
+    #add_subdirectory(tests)
 endif ()
 
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginBMP.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginICO.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginJPEG.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginJNG.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginKOALA.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginIFF.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginMNG.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPNM.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPCD.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPCX.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginRAS.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginTARGA.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginTIFF.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginWBMP.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPSD.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginCUT.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginXBM.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginXPM.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginDDS.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginGIF.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginHDR.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginG3.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginSGI.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginEXR.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginJ2K.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginJP2.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPFM.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginPICT.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginRAW.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginWEBP.cpp)
-set(cpp_SOURCES ${cpp_SOURCES} substitutions/PluginJXR.cpp)
-
-#-------- binary ----------------------------------------------------
-
-set(CMAKE_POSITION_INDEPENDENT_CODE 1)
-add_library(freeimage SHARED ${cpp_SOURCES})
-target_include_directories(freeimage INTERFACE freeimage/Source)
-target_include_directories(freeimage PRIVATE ${cpp_INCLUDES})
-target_compile_definitions(freeimage PUBLIC -DFREEIMAGE_LIB)
-target_compile_definitions(freeimage PRIVATE -DNO_LCMS -D__ANSI__ -DDISABLE_PERF_MEASUREMENT)
-target_compile_options(freeimage PRIVATE -Wno-switch -Wno-bitwise-op-parentheses -Wno-logical-op-parentheses)
-
-
-if (CMAKE_SYSTEM_NAME MATCHES "Android")
-    target_compile_definitions(freeimage PRIVATE -DPNG_ARM_NEON_OPT=0)
+if (CARBIN_BUILD_BENCHMARK)
+    #add_subdirectory(benchmark)
 endif ()
 
-install(FILES freeimage/Source/FreeImage.h DESTINATION include)
+if (CARBIN_BUILD_EXAMPLES)
+    #add_subdirectory(examples)
+endif ()
 
-install(TARGETS freeimage
-        RUNTIME DESTINATION lib
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
+##############################################
+# header installing
+#############################################
+install(DIRECTORY ${PROJECT_NAME}
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        FILES_MATCHING
+        PATTERN "*.inc"
+        PATTERN "*.h"
+        )
+
+# Layout. This works for all platforms:
+#   * <prefix>/lib*/cmake/<PROJECT-NAME>
+#   * <prefix>/lib*/
+#   * <prefix>/include/
+set(config_install_dir "${CMAKE_INSTALL_LIBDIR}/carbin_cmake/${PROJECT_NAME}")
+
+set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
+
+# Configuration
+set(version_config "${generated_dir}/${PROJECT_NAME}ConfigVersion.cmake")
+set(project_config "${generated_dir}/${PROJECT_NAME}Config.cmake")
+set(TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
+set(namespace "${PROJECT_NAME}::")
+
+# Include module with fuction 'write_basic_package_version_file'
+include(CMakePackageConfigHelpers)
+
+# Configure '<PROJECT-NAME>ConfigVersion.cmake'
+# Use:
+#   * PROJECT_VERSION
+write_basic_package_version_file(
+        "${version_config}" COMPATIBILITY SameMajorVersion
+)
+
+# Configure '<PROJECT-NAME>Config.cmake'
+# Use variables:
+#   * TARGETS_EXPORT_NAME
+#   * PROJECT_NAME
+configure_package_config_file(
+        "carbin_cmake/package/carbin_config.cmake.in"
+        "${project_config}"
+        INSTALL_DESTINATION "${config_install_dir}"
+)
+
+#Targets:
+#  * <prefix>/lib/libbar.a
+#  * <prefix>/lib/libbaz.a
+#  * header location after install: <prefix>/include/foo/Bar.hpp
+#  * headers can be included by C++ code `#include <foo/Bar.hpp>`
+
+
+# Config
+#   * <prefix>/lib/cmake/Foo/FooConfig.cmake
+#   * <prefix>/lib/cmake/Foo/FooConfigVersion.cmake
+install(
+        FILES
+        "${project_config}" "${version_config}"
+        DESTINATION
+        "${config_install_dir}"
+)
+
+# Config
+#   * <prefix>/lib/cmake/Foo/FooTargets.cmake
+
+install(
+        EXPORT
+        "${TARGETS_EXPORT_NAME}"
+        NAMESPACE
+        "${namespace}"
+        DESTINATION
+        "${config_install_dir}"
 )
